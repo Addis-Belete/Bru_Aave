@@ -39,7 +39,14 @@ describe("Aave", function () {
 			signer
 		)
 
+		const aFanDai = new ethers.Contract(
+			"0x82E64f49Ed5EC1bC6e43DAD4FC8Af9bb3A2312EE",
 
+			[
+				"function balanceOf(address account) external view returns (uint256)"
+			],
+			signer
+		)
 		const firstBal = await DAI.balanceOf(daiWhale);
 		console.log("Balance diaWhale:", firstBal.toString());
 
@@ -49,6 +56,10 @@ describe("Aave", function () {
 		await aave.connect(signer).deposit(Dai, firstBal.toString(), { gasLimit: "684853" });
 		const ADDBalance = await ADDToken.balanceOf(daiWhale);
 		console.log("Rewarded ADDD token -->", ADDBalance.toString());
+		const userBalanceAfterDeposit = await DAI.balanceOf(daiWhale);
+		expect(userBalanceAfterDeposit.toString()).to.equal("0");
+		const aFanDaiBalance = await aFanDai.balanceOf(daiWhale);
+		console.log("returned aFanToken From Aave-->", aFanDaiBalance.toString());
 
 
 	});
