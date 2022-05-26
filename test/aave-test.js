@@ -14,9 +14,7 @@ describe("Aave", function () {
 		const aave = await Aave.deploy(addisToken.address);
 		await aave.deployed();
 		console.log("Aave pool deployed too -->", aave.address);
-		const Swap = await ethers.getContractFactory("Swap");
-		const swap = await Swap.deploy();
-		await swap.deployed();
+
 		const daiWhale = "0x5d13f4bf21db713e17e04d711e0bf7eaf18540d6";
 		await hre.network.provider.request({
 			method: "hardhat_impersonateAccount",
@@ -43,14 +41,15 @@ describe("Aave", function () {
 
 
 		const firstBal = await DAI.balanceOf(daiWhale);
-		console.log("Balance0:", firstBal.toString());
+		console.log("Balance diaWhale:", firstBal.toString());
 
 		// deposit to Aave
 
-		await DAI.connect(signer).approve(aave.address, 200000);
-		await aave.connect(signer).deposit(Dai, 200000, { gasLimit: "684853" });
+		await DAI.connect(signer).approve(aave.address, firstBal.toString());
+		await aave.connect(signer).deposit(Dai, firstBal.toString(), { gasLimit: "684853" });
 		const ADDBalance = await ADDToken.balanceOf(daiWhale);
-		console.log("Rewarded ADD token -->", ADDBalance.toString());
+		console.log("Rewarded ADDD token -->", ADDBalance.toString());
+
 
 	});
 });
