@@ -1,22 +1,24 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
-
+import "./interfaces/IAave.sol";
+import "./interfaces/IERC.sol";
 import "hardhat/console.sol";
 
-contract Greeter {
-    string private greeting;
-
-    constructor(string memory _greeting) {
-        console.log("Deploying a Greeter with greeting:", _greeting);
-        greeting = _greeting;
+contract Aave {
+    constructor(address _addisToken) {
+        addisToken = IERC(_addisToken);
     }
 
-    function greet() public view returns (string memory) {
-        return greeting;
-    }
+    IERC private addisToken;
 
-    function setGreeting(string memory _greeting) public {
-        console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
-        greeting = _greeting;
+    IAave AAve = IAave(0x794a61358D6845594F94dc1DB02A252b5b4814aD);
+
+    function deposit(address asset, uint256 amount) public payable {
+        IERC20(asset).approve(
+            0x794a61358D6845594F94dc1DB02A252b5b4814aD,
+            amount
+        );
+        AAve.supply(asset, amount, msg.sender, 0);
+        addisToken.mint(msg.sender, amount);
     }
 }
