@@ -1,10 +1,11 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-
+const Web3 = require("web3");
 describe("Aave", function () {
 	it("Should depsit assets to Aave protocol and returns ADD token to user", async function () {
-		const WFTM = "";
+		const WFTM = "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83";
 		const Dai = "0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E"
+		const USDC = "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75";
 		const ADD = await ethers.getContractFactory("addisToken");
 		const addisToken = await ADD.deploy();
 		await addisToken.deployed();
@@ -16,7 +17,7 @@ describe("Aave", function () {
 		const Swap = await ethers.getContractFactory("Swap");
 		const swap = await Swap.deploy();
 		await swap.deployed();
-		const daiWhale = "0x32276A3a773A06B97815338DfF6bcBcFD6bB4856";
+		const daiWhale = "0x5d13f4bf21db713e17e04d711e0bf7eaf18540d6";
 		await hre.network.provider.request({
 			method: "hardhat_impersonateAccount",
 			params: [daiWhale],
@@ -31,9 +32,25 @@ describe("Aave", function () {
 			], signer);
 
 		// swap fantom to dia;
-		await swap.convert()
+		const ADDToken = new ethers.Contract(
+			addisToken.address,
+
+			[
+				"function balanceOf(address account) external view returns (uint256)"
+			],
+			signer
+		)
+
+
 		const firstBal = await DAI.balanceOf(daiWhale);
-		console.log("Balance0:", ethers.utils.formatUnits(firstBal));
+		console.log("Balance0:", firstBal.toString());
+
+		// deposit to Aave
+
+		await DAI.connect(signer).approve(aave.address, 200000);
+		await aave.connect(signer).deposit(Dai, 200000, { gasLimit: "684853" });
+		const ADDBalance = await ADDToken.balanceOf(daiWhale);
+		console.log("Rewarded ADD token -->", ADDBalance.toString());
 
 	});
 });
