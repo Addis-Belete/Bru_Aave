@@ -30,7 +30,11 @@ $ npm install
 ## To get local copy up and running follow these simple example steps
 
 ```
-git clone git@github.com:Addis-Belete/react-dapp.git
+- git clone git@github.com:Addis-Belete/Bru_Aave.git
+- git checkout development
+- npm install
+- run npx hardhat node on terminal
+- run npx hardhat test test/aave-test.js
 ```
 
 ```
