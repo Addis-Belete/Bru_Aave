@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
-import "./interfaces/IAave.sol";
-import "./interfaces/IERC.sol";
+import "./Interfaces/IAave.sol";
+import "./Interfaces/IERC.sol";
 import "hardhat/console.sol";
 
 contract Aave {
