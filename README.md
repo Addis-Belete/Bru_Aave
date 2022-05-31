@@ -11,12 +11,6 @@ Additional description about the project and its features.
 - Hardhat
 - ether.js
 
-## Prerequisites
-
-```
-Web Browser
-Meta Mask(google chrome extension)
-```
 
 ## Install
 
@@ -37,9 +31,6 @@ $ npm install
 - run npx hardhat test test/aave-test.js
 ```
 
-```
-cd react-dapp
-```
 
 ```
 
